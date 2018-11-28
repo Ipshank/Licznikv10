@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Licznik v1.0</string>
+    <string name="jednostka_usv_messafe">μSv</string>
+    <string name="jednostka_volt_message">V</string>
+    <string name="button1_message">Połącz</string>
+    <string name="button2_message">Rozłącz</string>
+    <string name="promieniowanie_value">0</string>
+    <string name="napiecie_value">0</string>
+    <string name="text1_message">Brak danych</string>
+</resources>
