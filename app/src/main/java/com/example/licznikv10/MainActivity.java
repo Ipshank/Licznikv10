@@ -10,10 +10,21 @@ import android.view.View;
 import android.net.wifi.WifiManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.content.Intent;
 
-import java.time.format.TextStyle;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
+
+public class MainActivity extends AppCompatActivity  {
 
 
     WifiManager wifiManager;
@@ -23,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     IntentFilter mIntent;
     Button wifi, connect;
     EditText p2p;
+    int rozmiar = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
             wifi.setText("Wi-fi on");
             wifi.setTextColor(0xFF00574B);
         }
+        /* Dodawaniae kolejnych liczb naturalnych w celach testowych,
+           docelowo gdy dane będą w postaci string czas, double pomiar będzie coś w stylu
+           DisplayChart.axisValues.add(rozmiar, new AxisValue(rozmiar).setLabel(czas));
+           DisplayChart.yAxisValues.add(rozmiar,new PointValue(rozmiar,pomiar));
+        */
+
+        DisplayChart.axisValues.add(rozmiar,new AxisValue(rozmiar).setLabel(Integer.toString(rozmiar)));
+        DisplayChart.yAxisValues.add(rozmiar,new PointValue(rozmiar,rozmiar));
+        rozmiar = rozmiar + 1;
 
     }
 
@@ -74,8 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void showChart(View view)
+    {
+        Intent intent = new Intent(this, DisplayChart.class);
+        startActivity(intent);
+
+    }
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         registerReceiver(mReceiver, mIntent);
 
