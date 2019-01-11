@@ -35,6 +35,9 @@ public class DisplayChart extends AppCompatActivity {
     static List yAxisValues = new ArrayList();
     static List axisValues = new ArrayList();
 
+
+    static LineChartData data = new LineChartData();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,15 +70,17 @@ public class DisplayChart extends AppCompatActivity {
         lines.add(line);
 
         //Dodanie linii do wykresu
-        LineChartData data = new LineChartData();
+        //LineChartData data = new LineChartData();
         data.setLines(lines);
 
         //Ustawienia osi x (legenda)
         Axis axis = new Axis();
         axis.setName("Czas");
         axis.setValues(axisValues);
+        axis.setMaxLabelChars(10);
+        axis.setHasLines(true); // zaznacza do którego punktu odnosi się label pod osią
         axis.setTextSize(12);
-        axis.setHasTiltedLabels(true); // to robi, że wartości są pod kątem względem osi
+        //axis.setHasTiltedLabels(true); // to robi, że wartości są pod kątem względem osi
         axis.setTextColor(Color.parseColor("#03A9F4"));
         data.setAxisXBottom(axis);
 
@@ -91,7 +96,10 @@ public class DisplayChart extends AppCompatActivity {
 
         //Wyświetlenia wykresu
         lineChartView.setLineChartData(data);
+
     }
+
+ 
 
 
 }

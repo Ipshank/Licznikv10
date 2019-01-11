@@ -12,9 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
 
+
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity  {
     Button wifi, connect;
     EditText p2p;
     int rozmiar = 0;
-
+    String currentDateTimeString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void wifiOnOff(View view) {
-        if (wifiManager.isWifiEnabled()) {
+       /* if (wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(false);
             wifi.setText("Wi-fi off");
             wifi.setTextColor(0xFFDD0A57);
@@ -58,16 +62,19 @@ public class MainActivity extends AppCompatActivity  {
             wifiManager.setWifiEnabled(true);
             wifi.setText("Wi-fi on");
             wifi.setTextColor(0xFF00574B);
-        }
+        }*/
+
+
         /* Dodawaniae kolejnych liczb naturalnych w celach testowych,
            docelowo gdy dane będą w postaci string czas, double pomiar będzie coś w stylu
            DisplayChart.axisValues.add(rozmiar, new AxisValue(rozmiar).setLabel(czas));
            DisplayChart.yAxisValues.add(rozmiar,new PointValue(rozmiar,pomiar));
         */
-
-        DisplayChart.axisValues.add(rozmiar,new AxisValue(rozmiar).setLabel(Integer.toString(rozmiar)));
+        currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        DisplayChart.axisValues.add(rozmiar,new AxisValue(rozmiar).setLabel(currentDateTimeString));
         DisplayChart.yAxisValues.add(rozmiar,new PointValue(rozmiar,rozmiar));
         rozmiar = rozmiar + 1;
+
 
     }
 
@@ -99,7 +106,9 @@ public class MainActivity extends AppCompatActivity  {
     public void showChart(View view)
     {
         Intent intent = new Intent(this, DisplayChart.class);
+
         startActivity(intent);
+
 
     }
     @Override
