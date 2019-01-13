@@ -35,6 +35,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -265,11 +266,14 @@ public class MainActivity extends AppCompatActivity  {
 
             objectOutStream.writeObject(list);
             objectOutStream.close();
+            Toast toast = Toast.makeText(getApplicationContext(), "File saved.", Toast.LENGTH_SHORT);
+            toast.show();
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+
 
     }
     public void delete(View view)
@@ -279,7 +283,8 @@ public class MainActivity extends AppCompatActivity  {
             File f = new File( path);
             if(f.exists())
             f.delete();
-
+        Toast toast = Toast.makeText(getApplicationContext(), "File removed.", Toast.LENGTH_SHORT);
+        toast.show();
 
 
 
@@ -344,6 +349,8 @@ public class MainActivity extends AppCompatActivity  {
         {
 
         }
+        Toast toast = Toast.makeText(getApplicationContext(), "File opened.", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
 
