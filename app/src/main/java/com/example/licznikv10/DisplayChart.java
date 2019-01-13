@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 
 import java.util.ArrayList;
@@ -32,12 +33,24 @@ public class DisplayChart extends AppCompatActivity {
     */
 
     //Listy w których będą dane
+    //Wszystkie próbki
     static List yAxisValues = new ArrayList();
     static List axisValues = new ArrayList();
 
+    //Co trzecia próbka
+    static List yAxisValues2 = new ArrayList();
+    static List axisValues2 = new ArrayList();
 
+
+    //przesunąłem konstruktory, zeby inne funkcje(przyciski) miały dostęp do danych
+    List lines = new ArrayList();
     static LineChartData data = new LineChartData();
 
+    //Linia wykresu łącząca punkty okreslone przez dane z listy
+    Line line = new Line(yAxisValues).setColor(Color.parseColor("#9C27B0")); //linia dla wszystkich próbek
+    Line line2 = new Line(yAxisValues2).setColor(Color.RED); //linia dla co trzeciej próbki
+
+    Axis axis = new Axis();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +62,6 @@ public class DisplayChart extends AppCompatActivity {
 
 
 
-        //Linia wykresu łącząca punkty okreslone przez dane z listy
-        Line line = new Line(yAxisValues).setColor(Color.parseColor("#9C27B0"));
 
 
         /*Wpisanie danych z tablic do list, przy próbach dodania czegoś z mainactivity, gdy coś jest na liście, rysował się jakby drugi wykres,
@@ -66,15 +77,19 @@ public class DisplayChart extends AppCompatActivity {
 
 
         //Lista linii (chociaż my i tak będziemy mieć  raczej jedną)
-        List lines = new ArrayList();
+        //List lines = new ArrayList();
+
+
+        //dodanie podstwowej linii - wszystkie próbki
         lines.add(line);
+
 
         //Dodanie linii do wykresu
         //LineChartData data = new LineChartData();
         data.setLines(lines);
-
+        //data2.setLines(lines);
         //Ustawienia osi x (legenda)
-        Axis axis = new Axis();
+        //Axis axis = new Axis();
         axis.setName("Czas");
         axis.setValues(axisValues);
         axis.setMaxLabelChars(10);
@@ -83,6 +98,8 @@ public class DisplayChart extends AppCompatActivity {
         //axis.setHasTiltedLabels(true); // to robi, że wartości są pod kątem względem osi
         axis.setTextColor(Color.parseColor("#03A9F4"));
         data.setAxisXBottom(axis);
+
+
 
         //Ustawienia osi y (legenda)
         Axis yAxis = new Axis();
@@ -94,12 +111,35 @@ public class DisplayChart extends AppCompatActivity {
         //yAxis.setHasTiltedLabels(true);
         data.setAxisYLeft(yAxis);
 
+
+
+
+
         //Wyświetlenia wykresu
+
         lineChartView.setLineChartData(data);
 
     }
 
- 
+    public void time1(View view)
+    {
+        axis.setMaxLabelChars(10);//ustawienie odstępu - potestować dla duzego zbioru danych
+                                    // w sumie może nie trzeba zmieniać, zależy jak dużo danych będzie  do narysowania
+                                    //zawsze można przyblizyc okreslony punkt i bedzie widac dokladna date
+        lines.clear();  //czyszcenie zbioru linii
+        lines.add(line);//dodanie do zbioru linii tej którą chcemy mieć
+        lineChartView.setLineChartData(data);//odświezenia wykrsu
+    }
+
+    public void time3(View view)
+    {
+        axis.setMaxLabelChars(4);//ustawienie odstępu - potestować dla duzego zbioru danych
+        lines.clear();//czyszcenie zbioru linii
+        lines.add(line2);//dodanie do zbioru linii tej którą chcemy mieć
+
+        lineChartView.setLineChartData(data);//odświezenia wykrsu
+    }
+
 
 
 }

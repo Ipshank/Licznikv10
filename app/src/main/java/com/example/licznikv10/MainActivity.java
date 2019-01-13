@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity  {
     IntentFilter mIntent;
     Button wifi, connect;
     EditText p2p;
-    int rozmiar = 0;
+    int rozmiar = 0;    //liczba danych w pierwszym zbiorze
+    int rozmiar2 = 0;   //liczba danych w drugim zbiorze
     String currentDateTimeString;
 
     @Override
@@ -74,6 +75,15 @@ public class MainActivity extends AppCompatActivity  {
         DisplayChart.axisValues.add(rozmiar,new AxisValue(rozmiar).setLabel(currentDateTimeString));
         DisplayChart.yAxisValues.add(rozmiar,new PointValue(rozmiar,rozmiar));
         rozmiar = rozmiar + 1;
+
+
+        //zbieranie co trzeciej próbki do drugiego zbioru
+        if(rozmiar%3 == 0)
+        {
+            DisplayChart.axisValues2.add(rozmiar2,new AxisValue(rozmiar).setLabel(currentDateTimeString));
+            DisplayChart.yAxisValues2.add(rozmiar2,new PointValue(rozmiar2,rozmiar));
+            rozmiar2 = rozmiar2 + 1;
+        }
 
 
     }
