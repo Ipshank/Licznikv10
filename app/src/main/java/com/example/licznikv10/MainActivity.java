@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,13 +62,14 @@ public class MainActivity extends AppCompatActivity  {
     int rozmiar3 = 0;
     int rozmiar4 = 0;
     float value = 0;
-    String IPn = "10.1.0.74";
+    String IPn = "192.168.43.9";
     String currentDateTimeString;
     String path;
     private EditText radiation;
     private EditText impulses;
     private  EditText IPnum;
     ArrayList<String> list = new ArrayList<String>();
+
     ScheduledExecutorService scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
 
     @Override
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void connect(View view) {
-        if (wifiManager.isWifiEnabled()) {
+        if (wifiManager.isWifiEnabled() || checkAP()) {
 
             p2p.setText("wi-fi is on");
             connect.setClickable(false);
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity  {
         path = getApplicationContext().getFilesDir().getPath() + "/geiger1.txt";
         IPnum.setText(IPn);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
@@ -126,7 +130,7 @@ public class MainActivity extends AppCompatActivity  {
         wykres.setVisibility(View.INVISIBLE);
         loadState();
         wykres.setVisibility(View.VISIBLE);
-        if (wifiManager.isWifiEnabled()) {
+        if (wifiManager.isWifiEnabled() || checkAP()) {
             p2p.setVisibility(View.VISIBLE);
             p2p.setText("wi-fi is on");
             connect.setClickable(false);
@@ -172,7 +176,7 @@ public class MainActivity extends AppCompatActivity  {
     private void getWebsite() {
 
 
-            if (wifiManager.isWifiEnabled()) {
+            if (wifiManager.isWifiEnabled() || checkAP()) {
 
 
                 new Thread(new Runnable() {
@@ -351,6 +355,16 @@ public class MainActivity extends AppCompatActivity  {
         }
         Toast toast = Toast.makeText(getApplicationContext(), "File opened.", Toast.LENGTH_SHORT);
         toast.show();
+    }
+    public boolean checkAP()
+    {
+        boolean temp = false;
+        try {
+            final Method method = wifiManager.getClass().getDeclaredMethod("isWifiApEnabled"); // reflections are wacky xD
+            method.setAccessible(true); //in the case of visibility change in future APIs
+            temp =  (Boolean) method.invoke(wifiManager);
+        }catch (NoSuchMethodException e){e.printStackTrace();}catch (IllegalAccessException b){b.printStackTrace();}catch(InvocationTargetException c){c.printStackTrace();}
+        return temp;
     }
 }
 
